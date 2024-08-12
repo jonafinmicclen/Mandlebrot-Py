@@ -17,19 +17,22 @@ for (x, y), _ in np.ndenumerate(mandlebrot_image):
 
     # Initialise Zn = 0 for Zn+1 = Zn^2 + C
     n_iteration = 0
-
+    max_abs = 0
     iterations = 0
     while True:
         iterations+=1
 
         n_iteration = mandlebrot_function(n_iteration, c)
+        
+        if abs(n_iteration) > max_abs:
+            max_abs = abs(n_iteration)
 
         if abs(n_iteration) >= 2:
-            mandlebrot_image[x, y] = 0
+            mandlebrot_image[x, y] = abs(mandlebrot_function(n_iteration, c))
             break
 
         if iterations > 50:
-            mandlebrot_image[x, y] = 255
+            mandlebrot_image[x, y] = 255 * (max_abs/2)
             break
 
 # Save as image
